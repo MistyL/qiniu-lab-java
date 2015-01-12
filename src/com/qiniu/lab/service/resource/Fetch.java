@@ -6,6 +6,10 @@ import com.qiniu.api.net.CallRet;
 import com.qiniu.api.net.EncodeUtils;
 import com.qiniu.lab.config.LabConfig;
 
+/**
+ * 使用七牛的Fetch接口抓取网络上的公开资源并保持在空间中。
+ * 文档：http://developer.qiniu.com/docs/v6/api/reference/rs/fetch.html
+ * */
 public class Fetch {
 
 	public static void fetch(String remoteResUrl, String bucket, String key) {
@@ -17,6 +21,7 @@ public class Fetch {
 		fetchUrl.append("http://iovip.qbox.me/fetch/").append(encodedUrl)
 				.append("/to/").append(encodedEntry);
 		CallRet ret = digestAuthClient.call(fetchUrl.toString());
+		// Success is 200
 		System.out.println(ret.statusCode);
 	}
 

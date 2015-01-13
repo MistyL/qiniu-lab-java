@@ -1,7 +1,10 @@
 package com.qiniu.lab.test;
 
+import org.json.JSONException;
+
 import com.qiniu.api.auth.digest.Mac;
 import com.qiniu.lab.config.LabConfig;
+import com.qiniu.lab.service.error.QiniuError;
 import com.qiniu.lab.service.fop.Pfop;
 import com.qiniu.lab.service.fop.Prefop;
 import com.qiniu.lab.service.fop.VFrameFopCmd;
@@ -9,12 +12,26 @@ import com.qiniu.lab.service.fop.VSampleFopCmd;
 
 public class FopTest {
 	// 测试fop结果查询
-	public static void testPrefop() throws Exception {
+	public static void testPrefop() {
 		String persistentId = "54af3b157823de40689d647f";
-		Prefop.FopResult fopResult = new Prefop().prefop(persistentId);
-		System.out.println(fopResult.toString());
-		for (Prefop.FopCmdResult r : fopResult.items) {
-			System.out.println(r.toString());
+		Prefop.FopResult fopResult;
+		try {
+			fopResult = new Prefop().prefop(persistentId);
+			System.out.println(fopResult.toString());
+			for (Prefop.FopCmdResult r : fopResult.items) {
+				System.out.println(r.toString());
+			}
+		} catch (QiniuError e) {
+			if (e.getCause() != null) {
+				e.getCause().printStackTrace();
+			} else {
+				try {
+					System.err.println(e.getError());
+				} catch (JSONException e1) {
+				}
+			}
+		} catch (JSONException e) {
+
 		}
 	}
 
@@ -37,8 +54,17 @@ public class FopTest {
 			fopCmd.setSaveEntry(bucket, saveKey);
 			persistentId = pfop.pfop();
 			System.out.println(persistentId);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (QiniuError e) {
+			if (e.getCause() != null) {
+				e.getCause().printStackTrace();
+			} else {
+				try {
+					System.err.println(e.getError());
+				} catch (JSONException e1) {
+				}
+			}
+		} catch (JSONException e) {
+
 		}
 	}
 
@@ -60,8 +86,17 @@ public class FopTest {
 		try {
 			persistentId = pfop.pfop();
 			System.out.println(persistentId);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (QiniuError e) {
+			if (e.getCause() != null) {
+				e.getCause().printStackTrace();
+			} else {
+				try {
+					System.err.println(e.getError());
+				} catch (JSONException e1) {
+				}
+			}
+		} catch (JSONException e) {
+
 		}
 	}
 
@@ -89,16 +124,25 @@ public class FopTest {
 		try {
 			persistentId = pfop.pfop();
 			System.out.println(persistentId);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (QiniuError e) {
+			if (e.getCause() != null) {
+				e.getCause().printStackTrace();
+			} else {
+				try {
+					System.err.println(e.getError());
+				} catch (JSONException e1) {
+				}
+			}
+		} catch (JSONException e) {
+
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
-		// testPrefop();
+		testPrefop();
 		// testVFrame();
 		// testMultiVFrame();
-		testVFrameAndVSample();
+		// testVFrameAndVSample();
 	}
 
 }

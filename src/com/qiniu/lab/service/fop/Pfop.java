@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.qiniu.api.auth.DigestAuthClient;
 import com.qiniu.api.auth.digest.Mac;
 import com.qiniu.api.net.CallRet;
+import com.qiniu.lab.service.error.QiniuError;
 
 /**
  * 手动触发数据持久化处理
@@ -101,9 +103,12 @@ public class Pfop {
 	/**
 	 * 执行pfop操作，返回persistentId
 	 * 
+	 * @throws JSONException
+	 * @throws QiniuError
+	 * 
 	 * @throws Exception
 	 */
-	public String pfop() throws Exception {
+	public String pfop() throws JSONException, QiniuError {
 		String persistentId = null;
 		DigestAuthClient digestAuthClient = new DigestAuthClient(mac);
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
@@ -123,7 +128,7 @@ public class Pfop {
 			JSONObject resp = new JSONObject(call.response);
 			persistentId = resp.getString("persistentId");
 		} else {
-			throw new Exception(call.response);
+			throw new QiniuError(call.response, call.exception);
 		}
 		return persistentId;
 	}

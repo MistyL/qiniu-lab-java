@@ -6,10 +6,12 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.qiniu.api.net.CallRet;
 import com.qiniu.api.net.Client;
+import com.qiniu.lab.service.error.QiniuError;
 
 /**
  * 查询持久化处理结果
@@ -54,7 +56,8 @@ public class Prefop {
 		}
 	}
 
-	public FopResult prefop(String persistentId) throws Exception {
+	public FopResult prefop(String persistentId) throws JSONException,
+			QiniuError {
 		FopResult fopResult = null;
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("id", persistentId));
@@ -84,7 +87,7 @@ public class Prefop {
 				fopResult.items.add(fopCmdResult);
 			}
 		} else {
-			throw call.exception;
+			throw new QiniuError(call.response, call.exception);
 		}
 		return fopResult;
 	}

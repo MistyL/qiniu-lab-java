@@ -11,7 +11,7 @@ public class VFrameFopCmd extends AbstractFopCmd {
 	private int offset;
 	private int width;
 	private int height;
-	private String rotate;
+	private int rotate;
 	private String saveBucket;
 	private String saveKey;
 
@@ -62,11 +62,11 @@ public class VFrameFopCmd extends AbstractFopCmd {
 		this.height = height;
 	}
 
-	public String getRotate() {
+	public int getRotate() {
 		return rotate;
 	}
 
-	public void setRotate(String rotate) {
+	public void setRotate(int rotate) {
 		this.rotate = rotate;
 	}
 
@@ -86,7 +86,7 @@ public class VFrameFopCmd extends AbstractFopCmd {
 		if (height > 0) {
 			fop.append("/h/").append(height);
 		}
-		if (rotate != null && !rotate.isEmpty()) {
+		if (rotate > 0) {
 			fop.append("/rotate/").append(rotate);
 		}
 		if (saveKey != null && !saveKey.isEmpty()) {

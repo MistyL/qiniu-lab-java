@@ -22,6 +22,9 @@ public class Prefop {
 		public String id;
 		public int code;
 		public String desc;
+		public String inputKey;
+		public String pipeline;
+		public String reqId;
 		public List<FopCmdResult> items;
 
 		public String toString() {
@@ -29,6 +32,9 @@ public class Prefop {
 			sb.append("Id:").append(id).append("\r\n");
 			sb.append("Code:").append(code).append("\r\n");
 			sb.append("Desc:").append(desc).append("\r\n");
+			sb.append("InputKey:").append(inputKey).append("\r\n");
+			sb.append("Pipeline:").append(pipeline).append("\r\n");
+			sb.append("ReqId:").append(reqId).append("\r\n");
 			return sb.toString();
 		}
 	}
@@ -70,6 +76,9 @@ public class Prefop {
 			fopResult.id = resp.getString("id");
 			fopResult.code = resp.getInt("code");
 			fopResult.desc = resp.getString("desc");
+			fopResult.inputKey = resp.getString("inputKey");
+			fopResult.pipeline = resp.getString("pipeline");
+			fopResult.reqId = resp.getString("reqid");
 			fopResult.items = new ArrayList<FopCmdResult>();
 			JSONArray itemObjects = resp.getJSONArray("items");
 			for (int i = 0; i < itemObjects.length(); i++) {

@@ -6,7 +6,7 @@ import com.qiniu.api.net.EncodeUtils;
  * 使用vframe接口截取视频的某一帧
  * 文档：http://developer.qiniu.com/docs/v6/api/reference/fop/av/vframe.html
  **/
-public class VFrameFopCmd extends AbstractFopCmd {
+public class VFrameFopCmd implements FopCmd {
 	private String format;
 	private int offset;
 	private int width;

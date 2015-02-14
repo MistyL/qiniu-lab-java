@@ -20,7 +20,7 @@ import com.qiniu.lab.service.error.QiniuError;
 public class Pfop {
 	private String bucket;
 	private String key;
-	private List<AbstractFopCmd> fopCmdList;
+	private List<FopCmd> fopCmdList;
 	private String notifyURL;
 	private boolean force;
 	private String pipeline;
@@ -33,7 +33,7 @@ public class Pfop {
 		this.notifyURL = null;
 		this.force = false;
 		this.pipeline = "";
-		this.fopCmdList = new ArrayList<AbstractFopCmd>();
+		this.fopCmdList = new ArrayList<FopCmd>();
 	}
 
 	public String getBucket() {
@@ -52,11 +52,11 @@ public class Pfop {
 		this.key = key;
 	}
 
-	public void addFopCmd(AbstractFopCmd fopCmd) {
+	public void addFopCmd(FopCmd fopCmd) {
 		this.fopCmdList.add(fopCmd);
 	}
 
-	public void removeFopCmd(AbstractFopCmd fopCmd) {
+	public void removeFopCmd(FopCmd fopCmd) {
 		this.fopCmdList.remove(fopCmd);
 	}
 
@@ -94,7 +94,7 @@ public class Pfop {
 
 	private String fopsToString() {
 		StringBuilder sb = new StringBuilder();
-		for (AbstractFopCmd fopCmd : this.fopCmdList) {
+		for (FopCmd fopCmd : this.fopCmdList) {
 			sb.append(fopCmd.toFopCmd()).append(";");
 		}
 		return sb.toString();

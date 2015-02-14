@@ -6,7 +6,7 @@ import com.qiniu.api.net.EncodeUtils;
  * 使用vsample接口给视频批量取帧
  * 文档：http://developer.qiniu.com/docs/v6/api/reference/fop/av/vsample.html
  * */
-public class VSampleFopCmd extends AbstractFopCmd {
+public class VSampleFopCmd implements FopCmd {
 	private String format;// format
 	private int startSecond;// ss
 	private int duration;// t

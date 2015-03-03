@@ -20,7 +20,7 @@ import com.qiniu.lab.service.error.QiniuError;
 public class Pfop {
 	private String bucket;
 	private String key;
-	private List<FopCmd> fopCmdList;
+	private String fops;
 	private String notifyURL;
 	private boolean force;
 	private String pipeline;
@@ -33,7 +33,7 @@ public class Pfop {
 		this.notifyURL = null;
 		this.force = false;
 		this.pipeline = "";
-		this.fopCmdList = new ArrayList<FopCmd>();
+		this.fops = "";
 	}
 
 	public String getBucket() {
@@ -52,12 +52,12 @@ public class Pfop {
 		this.key = key;
 	}
 
-	public void addFopCmd(FopCmd fopCmd) {
-		this.fopCmdList.add(fopCmd);
+	public String getFops() {
+		return fops;
 	}
 
-	public void removeFopCmd(FopCmd fopCmd) {
-		this.fopCmdList.remove(fopCmd);
+	public void setFops(String fops) {
+		this.fops = fops;
 	}
 
 	public String getNotifyURL() {
@@ -92,14 +92,6 @@ public class Pfop {
 		this.mac = mac;
 	}
 
-	private String fopsToString() {
-		StringBuilder sb = new StringBuilder();
-		for (FopCmd fopCmd : this.fopCmdList) {
-			sb.append(fopCmd.toFopCmd()).append(";");
-		}
-		return sb.toString();
-	}
-
 	/**
 	 * 执行pfop操作，返回persistentId
 	 * 
@@ -114,7 +106,7 @@ public class Pfop {
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("bucket", bucket));
 		nvps.add(new BasicNameValuePair("key", key));
-		nvps.add(new BasicNameValuePair("fops", fopsToString()));
+		nvps.add(new BasicNameValuePair("fops", this.fops));
 		nvps.add(new BasicNameValuePair("notifyURL", notifyURL));
 		String forceStr = "0";
 		if (force) {

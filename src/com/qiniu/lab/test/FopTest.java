@@ -1,10 +1,15 @@
 package com.qiniu.lab.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 
 import com.qiniu.api.auth.digest.Mac;
 import com.qiniu.lab.config.LabConfig;
 import com.qiniu.lab.service.error.QiniuError;
+import com.qiniu.lab.service.fop.FopCmd;
+import com.qiniu.lab.service.fop.FopUtil;
 import com.qiniu.lab.service.fop.Pfop;
 import com.qiniu.lab.service.fop.Prefop;
 import com.qiniu.lab.service.fop.VFrameFopCmd;
@@ -46,7 +51,7 @@ public class FopTest {
 		VFrameFopCmd fopCmd = new VFrameFopCmd(format, offset);
 		String persistentId;
 		try {
-			pfop.addFopCmd(fopCmd);
+			pfop.setFops(FopUtil.fopsToString(fopCmd));
 			persistentId = pfop.pfop();
 			System.out.println(persistentId);
 			// 自定义截图名称
@@ -75,15 +80,17 @@ public class FopTest {
 		String key = "qiniu.mp4";
 		String format = "jpg";
 		Pfop pfop = new Pfop(mac, bucket, key);
+		List<FopCmd> fopCmdList = new ArrayList<FopCmd>();
 		for (int i = 0; i < 10; i++) {
 			int offset = i;
 			String saveKey = "qiniu_vframe_" + i + ".jpg";
 			VFrameFopCmd fopCmd = new VFrameFopCmd(format, offset, bucket,
 					saveKey);
-			pfop.addFopCmd(fopCmd);
+			fopCmdList.add(fopCmd);
 		}
 		String persistentId = null;
 		try {
+			pfop.setFops(FopUtil.fopsToString(fopCmdList));
 			persistentId = pfop.pfop();
 			System.out.println(persistentId);
 		} catch (QiniuError e) {
@@ -118,10 +125,12 @@ public class FopTest {
 		vsampleFop.setRotate(90);
 		vsampleFop.setResolution("480x480");
 		vsampleFop.setInterval(10);
-		pfop.addFopCmd(vsampleFop);
-		pfop.addFopCmd(vframeFop);
+		List<FopCmd> fopCmdList = new ArrayList<FopCmd>();
+		fopCmdList.add(vsampleFop);
+		fopCmdList.add(vframeFop);
 		String persistentId = null;
 		try {
+			pfop.setFops(FopUtil.fopsToString(fopCmdList));
 			persistentId = pfop.pfop();
 			System.out.println(persistentId);
 		} catch (QiniuError e) {
@@ -139,8 +148,8 @@ public class FopTest {
 	}
 
 	public static void main(String[] args) throws Exception {
-		testPrefop();
-		// testVFrame();
+		// testPrefop();
+		testVFrame();
 		// testMultiVFrame();
 		// testVFrameAndVSample();
 	}

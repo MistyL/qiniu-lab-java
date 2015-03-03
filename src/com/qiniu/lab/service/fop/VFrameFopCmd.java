@@ -11,7 +11,7 @@ public class VFrameFopCmd implements FopCmd {
 	private int offset;
 	private int width;
 	private int height;
-	private int rotate;
+	private String rotate;
 	private String saveBucket;
 	private String saveKey;
 
@@ -62,11 +62,11 @@ public class VFrameFopCmd implements FopCmd {
 		this.height = height;
 	}
 
-	public int getRotate() {
+	public String getRotate() {
 		return rotate;
 	}
 
-	public void setRotate(int rotate) {
+	public void setRotate(String rotate) {
 		this.rotate = rotate;
 	}
 
@@ -86,7 +86,7 @@ public class VFrameFopCmd implements FopCmd {
 		if (height > 0) {
 			fop.append("/h/").append(height);
 		}
-		if (rotate > 0) {
+		if (rotate != null && !rotate.equals("")) {
 			fop.append("/rotate/").append(rotate);
 		}
 		if (saveKey != null && !saveKey.isEmpty()) {

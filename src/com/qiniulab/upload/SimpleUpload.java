@@ -121,7 +121,6 @@ public class SimpleUpload {
 						"{\"hash\":\"$(hash)\",\"key\":\"$(key)\",\"bucket\":\"$(bucket)\",\"hello\":\"$(x:hello)\"}");
 		String token = auth.uploadToken(QiniuLabConfig.PUBLIC_BUCKET, null,
 				3600, putPolicy);
-		token = "HCALkwxJcWd_8UlXCb6QWdA-pEZj1FXXSK0G1lMr:z6EfjE5jui2rO-Jy1HFjRoIkKAk=:eyJzY29wZSI6ImlmLXBibCIsImRlYWRsaW5lIjoxNDI1Mzc5MDEyfQ==";
 		UploadManager um = new UploadManager();
 		try {
 			Response resp = um.put("/Users/jemy/Documents/qiniu.png",

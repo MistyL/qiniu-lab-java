@@ -5,20 +5,19 @@ import com.qiniu.http.Response;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
-import com.qiniulab.config.QiniuLabConfig;
+import com.qiniulab.config.LabConfig;
 
 /**
  * 简单文件上传
  * */
 public class SimpleUpload {
-
 	/**
 	 * 上传无key文件，这种上传方式将使得七牛使用文件的hash作为文件名
 	 * */
 	public void simpleUploadWithoutKey() throws QiniuException {
-		Auth auth = Auth.create(QiniuLabConfig.ACCESS_KEY,
-				QiniuLabConfig.SECRET_KEY);
-		String token = auth.uploadToken(QiniuLabConfig.PUBLIC_BUCKET);
+		Auth auth = Auth.create(LabConfig.ACCESS_KEY,
+				LabConfig.SECRET_KEY);
+		String token = auth.uploadToken(LabConfig.PUBLIC_BUCKET);
 		UploadManager um = new UploadManager();
 		try {
 			Response resp = um.put("/Users/jemy/Documents/qiniu.mp4", null,
@@ -33,9 +32,9 @@ public class SimpleUpload {
 	 * 上传有key文件，七牛将使用指定的key作为文件名
 	 * */
 	public void simpleUploadWithKey() throws QiniuException {
-		Auth auth = Auth.create(QiniuLabConfig.ACCESS_KEY,
-				QiniuLabConfig.SECRET_KEY);
-		String token = auth.uploadToken(QiniuLabConfig.PUBLIC_BUCKET);
+		Auth auth = Auth.create(LabConfig.ACCESS_KEY,
+				LabConfig.SECRET_KEY);
+		String token = auth.uploadToken(LabConfig.PUBLIC_BUCKET);
 		UploadManager um = new UploadManager();
 		try {
 			Response resp = um.put("/Users/jemy/Documents/qiniu.mp4",
@@ -50,9 +49,9 @@ public class SimpleUpload {
 	 * 带扩展参数上传，所谓扩展参数就是除了七牛规定的参数之外的请求参数， 必须符合一定的命名规则，而且值不能为空。
 	 * */
 	public void simpleUploadWithExtraParams() {
-		Auth auth = Auth.create(QiniuLabConfig.ACCESS_KEY,
-				QiniuLabConfig.SECRET_KEY);
-		String token = auth.uploadToken(QiniuLabConfig.PUBLIC_BUCKET);
+		Auth auth = Auth.create(LabConfig.ACCESS_KEY,
+				LabConfig.SECRET_KEY);
+		String token = auth.uploadToken(LabConfig.PUBLIC_BUCKET);
 
 		StringMap extraParams = new StringMap();
 		extraParams.put("x:hello", "hello");
@@ -75,9 +74,9 @@ public class SimpleUpload {
 	 * 客户端上传指定文件的类型(mimeType)
 	 * */
 	public void simpleUploadWithMimeType() {
-		Auth auth = Auth.create(QiniuLabConfig.ACCESS_KEY,
-				QiniuLabConfig.SECRET_KEY);
-		String token = auth.uploadToken(QiniuLabConfig.PUBLIC_BUCKET);
+		Auth auth = Auth.create(LabConfig.ACCESS_KEY,
+				LabConfig.SECRET_KEY);
+		String token = auth.uploadToken(LabConfig.PUBLIC_BUCKET);
 		UploadManager um = new UploadManager();
 		String mimeType = "image/gif";
 		try {
@@ -90,12 +89,12 @@ public class SimpleUpload {
 	}
 
 	/**
-	 * 客户端上传设置文件的crc32校验，这将触发七牛对文件做crc32的计算，并和上传端指定吃的文件crc32做比较
+	 * 客户端上传设置文件的crc32校验，这将触发七牛对文件做crc32的计算，并和上传端指定的文件crc32做比较
 	 * */
 	public void simpleUploadWithCrc32Check() {
-		Auth auth = Auth.create(QiniuLabConfig.ACCESS_KEY,
-				QiniuLabConfig.SECRET_KEY);
-		String token = auth.uploadToken(QiniuLabConfig.PUBLIC_BUCKET);
+		Auth auth = Auth.create(LabConfig.ACCESS_KEY,
+				LabConfig.SECRET_KEY);
+		String token = auth.uploadToken(LabConfig.PUBLIC_BUCKET);
 		UploadManager um = new UploadManager();
 		try {
 			Response resp = um.put("/Users/jemy/Documents/qiniu.png",
@@ -110,8 +109,8 @@ public class SimpleUpload {
 	 * 自定义文件上传后七牛的回复内容
 	 * */
 	public void simpleUploadWithReturnBody() {
-		Auth auth = Auth.create(QiniuLabConfig.ACCESS_KEY,
-				QiniuLabConfig.SECRET_KEY);
+		Auth auth = Auth.create(LabConfig.ACCESS_KEY,
+				LabConfig.SECRET_KEY);
 		StringMap extraParams = new StringMap();
 		extraParams.put("x:hello", "hello");
 		extraParams.put("x:qiniu", "qiniu");
@@ -119,7 +118,7 @@ public class SimpleUpload {
 		putPolicy
 				.put("returnBody",
 						"{\"hash\":\"$(hash)\",\"key\":\"$(key)\",\"bucket\":\"$(bucket)\",\"hello\":\"$(x:hello)\"}");
-		String token = auth.uploadToken(QiniuLabConfig.PUBLIC_BUCKET, null,
+		String token = auth.uploadToken(LabConfig.PUBLIC_BUCKET, null,
 				3600, putPolicy);
 		UploadManager um = new UploadManager();
 		try {
